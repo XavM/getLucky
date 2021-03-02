@@ -51,24 +51,21 @@
 
       async function getLucky() {
 
-        //console.log('XAV getLucky')
-
         const keyPair   = bitcoinjs.ECPair.makeRandom(),
               wif       = keyPair.toWIF(),
             { address } = bitcoinjs.payments.p2pkh({ pubkey: keyPair.publicKey })
 
-        //return { keyPair, address }
 
         try {
-          const res  = await fetch('https://blockchain.info/rawaddr/' + address + '?cors=true'),
+
+          const res  = await fetch(`https://blockchain.info/rawaddr/${address}?cors=true`),
                 data = await res.json()
 
-          console.log('XAV data.final_balance', data.final_balance)
-
-          document.querySelector('h5').innerText = (data.final_balance == 0) ? 'You lose' : 'You win'
-
+          document.querySelector('h5').innerText  = (data.final_balance == 0) ? 'You lose' : 'You win'
           document.querySelector('pre').innerText = JSON.stringify({ wif, address, data }, null, 2)
+
         } catch(err) {
+
           document.querySelector('pre').innerText = ''
           document.querySelector('h5').innerHTML  = `
             Quota exceeded, please try again later
@@ -77,15 +74,15 @@
             </p>`
         }
 
-        document.querySelector('button').innerText = 'getLucky (' + ++count + ')'
+        document.querySelector('button').innerText = `getLucky (${++count})`
       }
 
       /* ---- */
 
       /*
+
       let start   = 0,
           results = { responses: [], adresses: 0, time: 0, avg: 0 }
-
 
       const workersCount = 4,
             workers      = []
@@ -114,7 +111,7 @@
 
               const { adresses, time, avg, hps } = results
 
-              console.log('XAV results', results)
+              //console.log('results', results)
 
               document.querySelector('pre').innerText = JSON.stringify({ workersCount, adresses, time, avg, hps }, null, 2)
             }
