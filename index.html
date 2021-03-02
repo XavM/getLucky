@@ -33,9 +33,11 @@
     -->      
 
     <h2 style="color: #f7931a;">Get Lucky !</h2>
-    <h4 style="color: grey;">Generate a random Bitcoin Private Key and check if the associated Address has received some coins</h4>
+    <h4 style="color: grey;">Generate a random Bitcoin Private Key
+      <p>and check if the associated Address has received some coins</p>
+    </h4>
     <button onclick="getLucky();">getLucky</button>
-    <h5 style="color: red;"></h5>
+    <h5 style="color: orangered;"></h5>
     <pre></pre>
 
     <!--
@@ -68,7 +70,11 @@
           document.querySelector('pre').innerText = JSON.stringify({ wif, address, data }, null, 2)
         } catch(err) {
           document.querySelector('pre').innerText = ''
-          document.querySelector('h5').innerText  = 'Quota exceeded, please try again later'
+          document.querySelector('h5').innerHTML  = `
+            Quota exceeded, please try again later
+            <p style="color: grey; font-size: smaller;">
+              Anyway, you will probably never win ;)
+            </p>`
         }
 
         document.querySelector('button').innerText = 'getLucky (' + ++count + ')'
