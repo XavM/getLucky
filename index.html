@@ -51,6 +51,10 @@
 
       async function getLucky() {
 
+        document.querySelector('h5').innerText  = 'Computing ...'
+        document.querySelector('pre').innerText = ''
+        document.querySelector('button').innerText = `getLucky (${++count})`
+
         const keyPair   = bitcoinjs.ECPair.makeRandom(),
               wif       = keyPair.toWIF(),
             { address } = bitcoinjs.payments.p2pkh({ pubkey: keyPair.publicKey })
@@ -65,16 +69,13 @@
           document.querySelector('pre').innerText = JSON.stringify({ wif, address, data }, null, 2)
 
         } catch(err) {
-
-          document.querySelector('pre').innerText = ''
+          
           document.querySelector('h5').innerHTML  = `
             Quota exceeded, please try again later
             <p style="color: grey; font-size: smaller;">
               You will probably never win anyway ;)
             </p>`
-        }
-
-        document.querySelector('button').innerText = `getLucky (${++count})`
+        }        
       }
 
       /* ---- */
