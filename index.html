@@ -4,12 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <title>Get Lucky :)</title>
+
   	<script src="js/bitcoinjs-lib.js"></script>
   </head>
   <body>
 
+    <h2>Get Lucky</h2>
+    <h3>Generate a random Bitcoin Private Key and check if the associated Address has received some coins</h3>
     <button onclick="getLucky();">getLucky</button>
-    <h2></h2>
+    <h4></h4>
     <pre></pre>
 
     <!--
@@ -18,6 +22,8 @@
     -->
 
   	<script>
+
+      let count = 0
 
       async function getLucky() {
 
@@ -34,7 +40,9 @@
 
         console.log('XAV data.final_balance', data.final_balance)
 
-        document.querySelector('h2').innerText = (data.final_balance == 0) ? 'Perdu' : 'Gagné'
+        document.querySelector('button').innerText = 'getLucky (' + ++count + ')'
+
+        document.querySelector('h4').innerText = (data.final_balance == 0) ? 'You lose' : 'You win'
 
         document.querySelector('pre').innerText = JSON.stringify({ wif, address, data }, null, 2)
       }
