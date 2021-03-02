@@ -11,9 +11,9 @@
   <body>
 
     <h2>Get Lucky</h2>
-    <h3>Generate a random Bitcoin Private Key and check if the associated Address has received some coins</h3>
+    <h4>Generate a random Bitcoin Private Key and check if the associated Address has received some coins</h4>
     <button onclick="getLucky();">getLucky</button>
-    <h4 style="color: red;"></h4>
+    <h5 style="color: red;"></h5>
     <pre></pre>
 
     <!--
@@ -35,16 +35,20 @@
 
         //return { keyPair, address }
 
-        const res  = await fetch('https://blockchain.info/rawaddr/' + address + '?cors=true'),
-              data = await res.json()
+        try {
+          const res  = await fetch('https://blockchain.info/rawaddr/' + address + '?cors=true'),
+                data = await res.json()
 
-        console.log('XAV data.final_balance', data.final_balance)
+          console.log('XAV data.final_balance', data.final_balance)
+
+          document.querySelector('h5').innerText = (data.final_balance == 0) ? 'You lose' : 'You win'
+
+          document.querySelector('pre').innerText = JSON.stringify({ wif, address, data }, null, 2)
+        } catch(err) {
+          document.querySelector('h5').innerText = 'Quota exceeded, please try again later'
+        }
 
         document.querySelector('button').innerText = 'getLucky (' + ++count + ')'
-
-        document.querySelector('h4').innerText = (data.final_balance == 0) ? 'You lose' : 'You win'
-
-        document.querySelector('pre').innerText = JSON.stringify({ wif, address, data }, null, 2)
       }
 
 
