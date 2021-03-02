@@ -1,1 +1,92 @@
-<h1>Get Lucky !</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<script src="js/bitcoinjs-lib.js"></script>
+  </head>
+  <body>
+
+    <button onclick="getLucky();">getLucky</button>
+    <h2></h2>
+    <pre></pre>
+
+    <!--
+    <input id="count" type="number" value=100>
+    <button onclick="go();">GO</button>
+    -->
+
+  	<script>
+
+      async function getLucky() {
+
+        //console.log('XAV getLucky')
+
+        const keyPair   = bitcoinjs.ECPair.makeRandom(),
+              wif       = keyPair.toWIF(),
+            { address } = bitcoinjs.payments.p2pkh({ pubkey: keyPair.publicKey })
+
+        //return { keyPair, address }
+
+        const res  = await fetch('https://blockchain.info/rawaddr/' + address + '?cors=true'),
+              data = await res.json()
+
+        console.log('XAV data.final_balance', data.final_balance)
+
+        document.querySelector('h2').innerText = (data.final_balance == 0) ? 'Perdu' : 'Gagné'
+
+        document.querySelector('pre').innerText = JSON.stringify({ wif, address, data }, null, 2)
+      }
+
+
+      /* ---- */
+
+      /*
+      let start   = 0,
+          results = { responses: [], adresses: 0, time: 0, avg: 0 }
+
+
+      const workersCount = 4,
+            workers      = []
+            
+      for (let i = 0; i < workersCount; i++) {
+
+        workers.push(new Worker('js/web-worker.js'))
+
+        workers[i].onmessage = (evt) => {
+
+          if (evt.data.msg == 'loopResult') {
+
+            //console.log(`worker ${i}:`, evt.data)
+
+            results.responses.push(evt.data.arr)
+
+            results.adresses += evt.data.arr.length
+
+            if (results.responses.length == workersCount) {
+
+              results.time = Date.now() - start
+              results.avg  = results.time / results.adresses
+              results.hps  = results.adresses / results.time * 1000
+
+              results.responses = results.responses.flat()              
+
+              const { adresses, time, avg, hps } = results
+
+              console.log('XAV results', results)
+
+              document.querySelector('pre').innerText = JSON.stringify({ workersCount, adresses, time, avg, hps }, null, 2)
+            }
+          }
+        }
+      } 
+
+      function go() {
+        results = { responses: [], adresses: 0, time: 0, avg: 0 }
+        start   = Date.now()
+        const count = document.querySelector('#count').value * 1
+        workers.forEach(worker => worker.postMessage({ msg: 'loop', count }))
+      }
+      */
+
+  	</script>
+  </body>
+</html>
