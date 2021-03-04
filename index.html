@@ -77,7 +77,11 @@
                           You will probably never win anyway ;)
                         </p>`
 
-          document.querySelector('h5').innerHTML  = (data.balance == 0) ? 'You lose' + text : 'You win'
+          document.querySelector('h5').innerHTML  = (data.balance == 0)
+                                                    ?
+                                                      '<span style="color:grey;">Not so lucky:</span> You lose' + text
+                                                    : '<span style="color:grey;">Amazing : </span><span style="color:lightseagreen;">You win !</span>'
+
           document.querySelector('pre').innerText = JSON.stringify({ wif, address, balance: btc.balance }, null, 2)
 
         } catch(err) {
