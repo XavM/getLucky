@@ -57,7 +57,7 @@
 
         try {
 
-          /*
+          /* Switch API call from blockchain.info to bitcore.io: No more throtling
           const res  = await fetch(`https://blockchain.info/rawaddr/${address}?cors=true`),
                 data = await res.json()
 
@@ -73,8 +73,12 @@
             return prev
           }, {})
 
-          document.querySelector('h5').innerText  = (data.balance == 0) ? 'You lose' : 'You win'
-          document.querySelector('pre').innerText = JSON.stringify({ wif, address, btc }, null, 2)
+          const text = `<p style="color: grey; font-size: smaller;">
+                          You will probably never win anyway ;)
+                        </p>`
+
+          document.querySelector('h5').innerHTML  = (data.balance == 0) ? 'You lose' + text : 'You win'
+          document.querySelector('pre').innerText = JSON.stringify({ wif, address, balance: btc.balance }, null, 2)
 
         } catch(err) {
           
