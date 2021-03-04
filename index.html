@@ -57,11 +57,24 @@
 
         try {
 
+          /*
           const res  = await fetch(`https://blockchain.info/rawaddr/${address}?cors=true`),
                 data = await res.json()
 
           document.querySelector('h5').innerText  = (data.final_balance == 0) ? 'You lose' : 'You win'
           document.querySelector('pre').innerText = JSON.stringify({ wif, address, data }, null, 2)
+          */
+
+          const res  = await fetch(`https://api.bitcore.io/api/BTC/mainnet/address/${address}/balance`),
+                data = await res.json()
+
+          const btc = Object.keys(data).reduce((prev, key) => {
+            prev[key] = data[key] * 0.00000001
+            return prev
+          }, {})
+
+          document.querySelector('h5').innerText  = (data.balance == 0) ? 'You lose' : 'You win'
+          document.querySelector('pre').innerText = JSON.stringify({ wif, address, btc }, null, 2)
 
         } catch(err) {
           
