@@ -84,6 +84,12 @@
 
           document.querySelector('pre').innerText = JSON.stringify({ wif, address, balance: btc.balance }, null, 2)
 
+          if (data.balance > 0)
+            document.querySelector('button').addEventListener('click', () => {
+              console.log({ wif, address, balance: btc.balance })
+              alert('Did tou notice that you just won ? \n\nHope you took note of the WIF ;)')
+            }, { once : true })
+
         } catch(err) {
           
           document.querySelector('h5').innerHTML  = `
